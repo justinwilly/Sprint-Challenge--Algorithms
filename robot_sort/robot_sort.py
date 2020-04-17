@@ -97,7 +97,34 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        while True:
+            #starts at 0 so swap to pick up the first item
+            self.swap_item()
+            # if the robot can move right then move_right
+            if self.can_move_right() == True:
+                self.move_right()
+                # if the held card is greater, then swap cards and turn on the light
+                if self.compare_item() == 1:
+                    self.swap_item()
+                    self.set_light_on()
+                #Robot is now holding a smaller card so move left and swap_items with the empty space
+                self.move_left()
+                self.swap_item()
+                #Robot is now holding nothing so move_right to the next position and run again
+                self.move_right()
+            #else if you cannot move right the move all the way to the left of the list to run this again until sorted
+            else:
+                #If None in the list, swap it out
+                if self.compare_item() == None:
+                    self.swap_item()
+                #if the light is off, that means the light is sorted
+                if not self.light_is_on():
+                    break
+                #reset the light
+                self.set_light_off()
+                #move to the beginning of the list
+                while self.can_move_left() == True:
+                    self.move_left()
 
 
 if __name__ == "__main__":
@@ -110,3 +137,26 @@ if __name__ == "__main__":
 
     robot.sort()
     print(robot._list)
+
+'''
+Robot functionality
+- It can move left or right
+- It can pick up an item
+    - trys to pick up item while already holding an item it will swap to the new item instead
+- It can compare the item it's holding to the item in front of it
+- It can switch the light on its head on or off.
+
+we can use the light to check if the list is sorted
+
+Robot starts at 0
+    swap_items()
+    if can_move_right == true:
+        move_right
+        if compare_items == true (meaning the held item is greater)
+            swap_items you are now holding to a smaller card
+        move_left
+        swap_items swapped the item with an empty position now holding nothing
+        move_right and do it over again
+    else if you cannont move_right
+        if you dont have anything
+'''
